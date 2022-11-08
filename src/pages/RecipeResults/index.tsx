@@ -45,7 +45,7 @@ const RecipeResults = () => {
                     <SearchBar onSubmit={addIngredient} clearAll={clearAllIngredients} classNames={ingredientSearchClasses}/>
                     <div className={'ingredient-chip-container'}>
                         {ingredients.map((ing) => (
-                            <Chip label={ing} onDelete={() => deleteIngredient(ing)} />
+                            <Chip key={`ing-chip-${ing}`} label={ing} onDelete={() => deleteIngredient(ing)} />
                         ))}
                     </div>
                 </PageSection>
