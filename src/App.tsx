@@ -8,19 +8,14 @@ import {
   Link
 } from "react-router-dom";
 import About from './pages/About';
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
   return (
     <Router>
       {/* Move out to nav component */}
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">About Me</Link>
-            </li>
-          </ul>
-        </nav>
+        <NavBar />
 
         <Routes>
           <Route path="/" element={<About />} />
