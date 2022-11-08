@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 
 const About = () => {
-    console.log('here')
   return (
-    <div>Blarg</div>
+    <h1>Coming soon...</h1>
   );
 };
 

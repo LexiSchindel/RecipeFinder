@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import About from './pages/About';
 import NavBar from './components/NavBar/NavBar';
+import RecipeResults from './pages/RecipeResults';
 
 function App() {
   return (
@@ -16,10 +17,12 @@ function App() {
       {/* Move out to nav component */}
       <div>
         <NavBar />
-
-        <Routes>
-          <Route path="/" element={<About />} />
-        </Routes>
+        <div className={'top-page'}>
+          <Routes>
+            <Route path="/" element={<About />} />
+            <Route path="/recipes" element={<RecipeResults />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

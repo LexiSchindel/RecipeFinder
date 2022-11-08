@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { useNavigate } from "react-router-dom";
 import './NavBar.css'
 
-const pages: {label: string; path: string}[] = [{label: 'About', path: '/'}, {label: 'Blarg', path: '/blarg'}];
+const pages: {label: string; path: string}[] = [{label: 'About', path: '/'}, {label: 'Recipe Search', path: '/recipes'}];
 
 function NavBar() {
   let navigate = useNavigate(); 
@@ -20,11 +20,11 @@ function NavBar() {
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
         {pages.map((page) => (
             <Button
-            key={page.label}
-            onClick={() => routeChange(page.path)}
-            // sx={{ my: 2, color: 'white', display: 'block' }}
+                key={page.label}
+                onClick={() => routeChange(page.path)}
+                style={{color: 'white'}}
             >
-            {page.label}
+                {page.label}
             </Button>
         ))}
         </Box>
