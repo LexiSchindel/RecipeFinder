@@ -2,6 +2,7 @@ import Chip from '@material-ui/core/Chip';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { fetchRecipeById } from '../../api/elasticsearch';
 import IngredientChip from '../../components/IngredientChip/IngredientChip';
 import PageSection from '../../components/PageSection/PageSection';
 import RecipeList from '../../components/RecipeList/RecipeList';
@@ -24,6 +25,10 @@ const RecipeResults = () => {
     const [ingredients, setIngredients] = useState<string[]>([]);
     const [recipes, setRecipes] = useState<RecipeObject[] | []>([]);
     const [loading, setLoading] = useState(false);
+
+    fetchRecipeById('983IWIQBIiWM81d0Tea9').then((res) => {
+        console.log(res)
+    });
 
     const addIngredient = (newIngredient: string) => {
         if (!newIngredient) return;
