@@ -1,24 +1,21 @@
-// const { Client } = require('@elastic/elasticsearch')
-
+import axios from "axios";
 const baseESUrl = "http://localhost:9200/recipes/recipes/";
-
-// const client = new Client({
-//     host: 'http://localhost:9200/',
-//     log: 'trace'
-//   });
 
 export const fetchRecipeById = async (id) => {
     return await fetch(baseESUrl + `_doc/${id}`, {method: 'GET'});
 };
 
 export const fetchRecipeByIngredients = async (ingredients) => {
-    // return client
-    // .search({
-    //   index: 'recipes',
-    //   type: 'recipes',
-    //   query: {
-    //     term: { ingredients: ingredients }
-    //   }
-    // });
-    return 'blarg';
+    return await axios.get('http://localhost:9200/recipes/_search', {
+        params: {
+            source: JSON.stringify({
+                query: {
+                    term: { ingredients: "flour" }
+                }
+            }),
+            source_content_type: 'application/json'
+        }
+        }).then((res) => {
+            console.log('res', res);
+        });
 }
