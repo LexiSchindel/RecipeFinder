@@ -8,12 +8,12 @@
 }
 
 .two-third-page {
-    width: 100%;
     flex-grow: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 75%;
+    height: 100%;
 }
 
 .ingredient-recipe-container {

@@ -1,11 +1,9 @@
 import Chip from '@material-ui/core/Chip';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { fetchRecipeByIngredients } from '../../api/elasticsearch2';
-import IngredientChip from '../../components/IngredientChip/IngredientChip';
-import PageSection from '../../components/PageSection/PageSection';
-import RecipeList from '../../components/RecipeList/RecipeList';
+import RecipeList, { RecipeObject } from '../../components/RecipeList/RecipeList';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './style.css';
 
@@ -15,10 +13,6 @@ const ingredientSearchClasses = {
     submitButton: 'ingredient-search-buttons',
     clearButton: 'ingredient-search-buttons',
     buttonContainer: 'ingredient-search-button-container'
-}
-
-export type RecipeObject = {
-
 }
 
 const RecipeResults = () => {
@@ -38,8 +32,13 @@ const RecipeResults = () => {
         // elastic search call and set recipes
         setLoading(true);
 
-        fetchRecipeByIngredients(ingredients).then((res: any) => {
-            console.log('bloop', res);
+        console.log('ingredients', updatedIngredients)
+        fetchRecipeByIngredients(updatedIngredients).then((res: any) => {
+            const resp = res?.data?.hits?.hits;
+            if (resp && resp.length > 0){
+                console.log(resp);
+                setRecipes(resp as RecipeObject[]);
+            }
             setLoading(false);
         });
     };

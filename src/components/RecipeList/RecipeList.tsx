@@ -1,10 +1,14 @@
 import React from 'react';
-import { RecipeObject } from '../../pages/RecipeResults';
-import Skeleton from 'react-loading-skeleton'
+import RecipeCard, { Recipe } from '../RecipeCard/RecipeCard';
+import './styles.css';
 
 type Props = {
     ingredients: string[];
     recipes: RecipeObject[] | [];
+}
+
+export type RecipeObject = {
+    _source: Recipe
 }
 
 function RecipeList({ ingredients, recipes }: Props) {
@@ -15,11 +19,13 @@ function RecipeList({ ingredients, recipes }: Props) {
     }
 
     return (
-        <>
+        <div className='recipe-list'>
             {recipes.map((rec) => (
-                <>blarg</>
+                <RecipeCard
+                    recipe={rec._source}
+                />
             ))}
-        </>
+        </div>
     )
 }
 
