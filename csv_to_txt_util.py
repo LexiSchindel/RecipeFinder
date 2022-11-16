@@ -17,6 +17,13 @@ with open('clean_recipes.txt', 'w') as f:
             else:
                 obj = {}
                 for hInd, h in enumerate(headers):
-                    obj[h] = item[hInd]
+                    val = item[hInd]
+                    if hInd == 1:
+                        if val[-1] == 'k':
+                            val = int(val[:-1].strip()) * 1000
+                        else:
+                            obj[h] = int(val)
+                    else:
+                        obj[h] = val
                 f.write(json.dumps(uploadGuide) + "\n")
                 f.write(json.dumps(obj) + "\n")

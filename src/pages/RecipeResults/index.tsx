@@ -1,8 +1,10 @@
 import Chip from '@material-ui/core/Chip';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { fetchRecipeByIngredients } from '../../api/elasticsearch2';
+import FilterDropdown, { FilterOption } from '../../components/FilterDropdown/FilterDropdown';
+import { Recipe } from '../../components/RecipeCard/RecipeCard';
 import RecipeList, { RecipeObject } from '../../components/RecipeList/RecipeList';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './style.css';
@@ -19,6 +21,26 @@ const RecipeResults = () => {
     const [ingredients, setIngredients] = useState<string[]>([]);
     const [recipes, setRecipes] = useState<RecipeObject[] | []>([]);
     const [loading, setLoading] = useState(false);
+    const [filter, setFilter] = useState<FilterOption | null>(null);
+
+    const fetchRecipe = (ingredients: string[], filter: FilterOption | null) => {
+        fetchRecipeByIngredients(ingredients, filter).then((res: any) => {
+            const resp = res?.data?.hits?.hits;
+            if (resp && resp.length > 0){
+                setRecipes(resp as RecipeObject[]);
+            }
+            setLoading(false);
+        }).catch((err) => {
+            console.error('there was an error', err);
+            setLoading(false);
+        });
+    };
+
+    const addFilter = (filter: FilterOption) => {
+        setFilter(filter);
+        setLoading(true);
+        fetchRecipe(ingredients, filter)
+    }
 
     const addIngredient = (newIngredient: string) => {
         if (!newIngredient) return;
@@ -31,16 +53,7 @@ const RecipeResults = () => {
 
         // elastic search call and set recipes
         setLoading(true);
-
-        console.log('ingredients', updatedIngredients)
-        fetchRecipeByIngredients(updatedIngredients).then((res: any) => {
-            const resp = res?.data?.hits?.hits;
-            if (resp && resp.length > 0){
-                console.log(resp);
-                setRecipes(resp as RecipeObject[]);
-            }
-            setLoading(false);
-        });
+        fetchRecipe(updatedIngredients, filter);
     };
 
     const clearAllIngredients = () => {
@@ -55,10 +68,11 @@ const RecipeResults = () => {
         // elastic search call for updated recipes
         setLoading(true);
         
-        const result: RecipeObject[] = [];
-        setRecipes(result.length > 0 ? result : []);
+        fetchRecipe(updated, filter);
         setLoading(false);
     }
+
+    console.log('filter', filter)
 
     return (
         <>
@@ -77,6 +91,10 @@ const RecipeResults = () => {
                 </div>
                 <div className={'two-third-page'}>
                     <h2>Recipe Results</h2>
+                    {ingredients.length !== 0 && <FilterDropdown 
+                        filterChoice={filter}
+                        handleChange={addFilter}
+                    />}
                     <div className={'recipe-list-container'}>
                         {loading && <Skeleton height={'100%'} width={'100%'} />}
                         {!loading && <RecipeList ingredients={ingredients} recipes={recipes} />}
