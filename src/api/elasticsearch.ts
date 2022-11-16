@@ -23,8 +23,6 @@ export const fetchRecipeByIngredients = (ingredients: string[], filter: null | F
         }
     }
 
-    console.log('query', query)
-
     return axios.get(`${baseESUrl}/_search`, {
         params: {
           source: JSON.stringify(query),

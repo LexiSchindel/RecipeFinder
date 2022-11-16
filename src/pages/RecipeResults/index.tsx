@@ -2,7 +2,7 @@ import Chip from '@material-ui/core/Chip';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { fetchRecipeByIngredients } from '../../api/elasticsearch2';
+import { fetchRecipeByIngredients } from '../../api/elasticsearch';
 import FilterDropdown, { FilterOption } from '../../components/FilterDropdown/FilterDropdown';
 import { Recipe } from '../../components/RecipeCard/RecipeCard';
 import RecipeList, { RecipeObject } from '../../components/RecipeList/RecipeList';

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { RecipeObject } from '../../components/RecipeList/RecipeList';
 import { FilterOption } from '../../components/FilterDropdown/FilterDropdown';
-import { fetchRecipeByIngredients } from '../../api/elasticsearch2';
+import { fetchRecipeByIngredients } from '../../api/elasticsearch';
   
   type RecipeState = {
     recipes: RecipeObject[] | [];
