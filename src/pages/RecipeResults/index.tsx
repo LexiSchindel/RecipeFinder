@@ -7,6 +7,7 @@ import FilterDropdown, { FilterOption } from '../../components/FilterDropdown/Fi
 import { Recipe } from '../../components/RecipeCard/RecipeCard';
 import RecipeList, { RecipeObject } from '../../components/RecipeList/RecipeList';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import { useRecipeContext } from './RecipeContext';
 import './style.css';
 
 const ingredientSearchClasses = {
@@ -18,61 +19,7 @@ const ingredientSearchClasses = {
 }
 
 const RecipeResults = () => {
-    const [ingredients, setIngredients] = useState<string[]>([]);
-    const [recipes, setRecipes] = useState<RecipeObject[] | []>([]);
-    const [loading, setLoading] = useState(false);
-    const [filter, setFilter] = useState<FilterOption | null>(null);
-
-    const fetchRecipe = (ingredients: string[], filter: FilterOption | null) => {
-        fetchRecipeByIngredients(ingredients, filter).then((res: any) => {
-            const resp = res?.data?.hits?.hits;
-            if (resp && resp.length > 0){
-                setRecipes(resp as RecipeObject[]);
-            }
-            setLoading(false);
-        }).catch((err) => {
-            console.error('there was an error', err);
-            setLoading(false);
-        });
-    };
-
-    const addFilter = (filter: FilterOption) => {
-        setFilter(filter);
-        setLoading(true);
-        fetchRecipe(ingredients, filter)
-    }
-
-    const addIngredient = (newIngredient: string) => {
-        if (!newIngredient) return;
-        if (ingredients.includes(newIngredient)){
-            // show snack
-            return;
-        };
-        const updatedIngredients = [...ingredients, newIngredient];
-        setIngredients(updatedIngredients);
-
-        // elastic search call and set recipes
-        setLoading(true);
-        fetchRecipe(updatedIngredients, filter);
-    };
-
-    const clearAllIngredients = () => {
-        setIngredients([]);
-        setRecipes([]);
-    };
-
-    const deleteIngredient = (deleteIng: string) => {
-        const updated = ingredients.filter((val) => val !== deleteIng);
-        setIngredients(updated);
-
-        // elastic search call for updated recipes
-        setLoading(true);
-        
-        fetchRecipe(updated, filter);
-        setLoading(false);
-    }
-
-    console.log('filter', filter)
+    const [{ingredients, recipes, loading, filter}, {addFilter, addIngredient, clearAllIngredients, deleteIngredient}] = useRecipeContext();
 
     return (
         <>
@@ -97,7 +44,7 @@ const RecipeResults = () => {
                     />}
                     <div className={'recipe-list-container'}>
                         {loading && <Skeleton height={'100%'} width={'100%'} />}
-                        {!loading && <RecipeList ingredients={ingredients} recipes={recipes} />}
+                        {!loading && <RecipeList />}
                     </div>
                 </div>
             </div>
