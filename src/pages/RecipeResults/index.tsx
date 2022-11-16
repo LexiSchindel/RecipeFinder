@@ -1,11 +1,9 @@
 import Chip from '@material-ui/core/Chip';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { fetchRecipeByIngredients } from '../../api/elasticsearch';
-import FilterDropdown, { FilterOption } from '../../components/FilterDropdown/FilterDropdown';
-import { Recipe } from '../../components/RecipeCard/RecipeCard';
-import RecipeList, { RecipeObject } from '../../components/RecipeList/RecipeList';
+import FilterDropdown from '../../components/FilterDropdown/FilterDropdown';
+import RecipeList from '../../components/RecipeList/RecipeList';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { useRecipeContext } from './RecipeContext';
 import './style.css';
@@ -19,7 +17,7 @@ const ingredientSearchClasses = {
 }
 
 const RecipeResults = () => {
-    const [{ingredients, recipes, loading, filter}, {addFilter, addIngredient, clearAllIngredients, deleteIngredient}] = useRecipeContext();
+    const [{ingredients, loading, filter}, {addFilter, addIngredient, clearAllIngredients, deleteIngredient}] = useRecipeContext();
 
     return (
         <>
